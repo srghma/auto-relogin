@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Relogin for Wifi",
+  "version": "1.0",
+  "description": "Automatically relogs into the wifi every 30 minutes.",
+  "permissions": ["tabs", "alarms", "scripting"],
+  "host_permissions": [
+    "http://rathanamall.com.kh/*",
+    "http://ratanahotspot.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
