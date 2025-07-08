@@ -11,7 +11,9 @@ function clickLoginButton() {
 
 const closeTabAfter = 4000
 const checkInterval = 2 * 1000 // Check every 5 minutes
-const urlToReenableInternet = "http://rathanamall.com.kh/login"
+const urlToReenableInternet = "http://ratanaplaza.hotspot/login"
+//const urlToReenableInternet = "http://rathanamall.com.kh/login"
+// const urlToReenableInternet = "http://soryahotspot.com/login"
 
 // Debounce function
 function debounce(func, wait) {
