@@ -1,6 +1,8 @@
 // Function to click the LOGIN button (executed in the context of the login page)
 function clickLoginButton() {
-  const loginButton = document.querySelector("button[type='submit'], input[type='submit']");
+  const loginButton = document.querySelector(
+    "button[type='submit'], input[type='submit']",
+  );
   if (loginButton) {
     console.log("Clicking login button...");
     loginButton.click();
@@ -9,9 +11,10 @@ function clickLoginButton() {
   }
 }
 
-const closeTabAfter = 4000
-const checkInterval = 2 * 1000 // Check every 5 minutes
-const urlToReenableInternet = "http://ratanaplaza.hotspot/login"
+const closeTabAfter = 4000;
+const checkInterval = 2 * 1000; // Check every 5 minutes
+const urlToReenableInternet = "http://ratanaplazahotspot.com/login";
+// const urlToReenableInternet = "http://ratanaplaza.hotspot/login"
 //const urlToReenableInternet = "http://rathanamall.com.kh/login"
 // const urlToReenableInternet = "http://soryahotspot.com/login"
 
@@ -24,20 +27,23 @@ function debounce(func, wait) {
     const output = await func.apply(this, args);
     await new Promise((resolve) => setTimeout(resolve, wait));
     running = false;
-    return output
+    return output;
   };
 }
 
 // Function to open the login URL in a new tab
 async function relogin() {
-  const tab = await chrome.tabs.create({ url: urlToReenableInternet, active: false });
+  const tab = await chrome.tabs.create({
+    url: urlToReenableInternet,
+    active: false,
+  });
   console.log("I've created a tab");
 
   // Inject script to click login button
   try {
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      function: clickLoginButton
+      function: clickLoginButton,
     });
   } catch (error) {
     console.error("Failed to inject script:", error);
@@ -62,8 +68,7 @@ async function isInternetWorking() {
     if (response.ok || response.type === "opaque") {
       return true;
     }
-  } catch (error) {
-  }
+  } catch (error) {}
   return false;
 }
 
@@ -71,7 +76,7 @@ async function isInternetWorking() {
 const relogin_debounced = debounce(relogin, 1000);
 
 // Run the function immediately when the service worker is activated
-self.addEventListener("activate", relogin_debounced)
+self.addEventListener("activate", relogin_debounced);
 
 // Set up alarms
 chrome.alarms.create("reloginAlarm", { periodInMinutes: 6 });
@@ -87,7 +92,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       console.log("Wifi is disabled by user, no need to relogin");
       return;
     }
-    if (!await isInternetWorking()) {
+    if (!(await isInternetWorking())) {
       console.log("Network is offline, attempting re-login...");
       await relogin_debounced();
     }
